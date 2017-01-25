@@ -1,0 +1,90 @@
+﻿<Page
+    x:Class="CryptoWizard.Views.MainPageView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CryptoWizard.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:micro="using:Caliburn.Micro"
+    xmlns:i= "using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <RelativePanel>
+            <Button Name="HamburgerButton" 
+                    FontFamily="Segoe MDL2 Assets"
+                    Content="&#xE700;" 
+                    FontSize="30" 
+                    Click="HamburgerButton_Click"  />
+        </RelativePanel>
+        <SplitView Name="MySplitView" 
+                   Grid.Row="1" 
+                   DisplayMode="CompactOverlay"
+                   OpenPaneLength="200" 
+                   CompactPaneLength="50" 
+                   HorizontalAlignment="Left">
+            <SplitView.Pane>
+                <ListBox SelectionMode="Single" 
+                         SelectedIndex="{Binding Index, Mode=TwoWay}"
+                         micro:Message.Attach="[Event SelectionChanged] = [Action SelectMenuCommand()]">
+                    <ListBoxItem>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Foreground="Blue" FontSize="30" Text="&#xE947;" />
+                            <TextBlock Text="Multiply" FontSize="20" Margin="20,0,0,0" />
+                        </StackPanel>
+                    </ListBoxItem>
+
+                    <ListBoxItem>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Foreground="Brown" FontSize="30" Text="&#xE949;" />
+                            <TextBlock Text="Inverse" FontSize="20" Margin="20,0,0,0" />
+                        </StackPanel>
+                    </ListBoxItem>
+
+                    <ListBoxItem>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Foreground="Coral" FontSize="30" Text="&#xE948;" />
+                            <TextBlock Text="Addition" FontSize="20" Margin="20,0,0,0" />
+                        </StackPanel>
+                    </ListBoxItem>
+
+                    <ListBoxItem>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets"  Foreground="Fuchsia"  FontSize="30" Text="&#xE929;" />
+                            <TextBlock Text="Generate EDS" FontSize="20" Margin="20,0,0,0" />
+                        </StackPanel>
+                    </ListBoxItem>
+
+                    <ListBoxItem>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Foreground="DarkGreen" FontSize="30" Text="&#xE8A6;"/>
+                            <TextBlock Text="Check EDS" FontSize="20" Margin="20,0,0,0" />
+                        </StackPanel>
+                    </ListBoxItem>
+
+                    <ListBoxItem>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Foreground="Gold" FontSize="30" Text="&#xE99A;" />
+                            <TextBlock Text="Help" FontSize="20" Margin="20,0,0,0" />
+                        </StackPanel>
+                    </ListBoxItem>
+
+                    <ListBoxItem>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" Foreground="DarkSalmon" FontSize="30" Text="&#xE76E;" />
+                            <TextBlock Text="About" FontSize="20" Margin="20,0,0,0" />
+                        </StackPanel>
+                    </ListBoxItem>
+                </ListBox>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Frame Name="myFrame"/>
+            </SplitView.Content>
+        </SplitView>
+    </Grid>
+</Page>
