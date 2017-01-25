@@ -10,7 +10,7 @@ namespace CryptoWizard.Services
     /// <param name="x1">The first point</param>
     /// <param name="y1">The first point</param>
     /// <param name="p">Mod</param>
-    /// <returns>Return inverse point</returns>
+    /// <returns>Return the inverse point</returns>
     public IEnumerable<int> InverseResult(int x1, int y1, int p)
     {
       return new int[] { x1, p - y1 };
