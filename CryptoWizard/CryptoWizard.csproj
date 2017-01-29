@@ -143,12 +143,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CryptoWizard.Infrastructure\CryptoWizard.Infrastructure.csproj">
-      <Project>{9CD65F77-3F9D-4BA2-9EF1-0D51D7644B62}</Project>
-      <Name>CryptoWizard.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CryptoWizard.Services\CryptoWizard.Services.csproj">
-      <Project>{2966F5FF-52BC-4E51-A9C7-BB371C204CAC}</Project>
+      <Project>{FE759F58-2938-4B8E-9C31-3A881A348B89}</Project>
       <Name>CryptoWizard.Services</Name>
     </ProjectReference>
   </ItemGroup>

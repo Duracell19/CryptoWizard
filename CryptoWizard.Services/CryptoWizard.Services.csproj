@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2966F5FF-52BC-4E51-A9C7-BB371C204CAC}</ProjectGuid>
+    <ProjectGuid>{FE759F58-2938-4B8E-9C31-3A881A348B89}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CryptoWizard.Services</RootNamespace>
@@ -113,12 +113,6 @@
     <Compile Include="Multiply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\CryptoWizard.Services.rd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CryptoWizard.Infrastructure\CryptoWizard.Infrastructure.csproj">
-      <Project>{9CD65F77-3F9D-4BA2-9EF1-0D51D7644B62}</Project>
-      <Name>CryptoWizard.Infrastructure</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

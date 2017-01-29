@@ -7,25 +7,23 @@ namespace CryptoWizard.Services
     /// <summary>
     /// This method calculate multiply of points
     /// </summary>
-    /// <param name="x1">The first point</param>
-    /// <param name="y1">The first point</param>
-    /// <param name="x2">The second point</param>
-    /// <param name="y2">The second point</param>
+    /// <param name="x">The point</param>
+    /// <param name="y">The point</param>
     /// <param name="a">Argument of equation</param>
     /// <param name="p">Mod</param>
     /// <param name="k">Coefficient which show how many multiply</param>
     /// <returns>Return result of addition</returns>
-    public IEnumerable<int> MultiplyResult(int x1, int y1, int x2, int y2, double a, int p, int k)
+    public IEnumerable<int> MultiplyResult(int x, int y, double a, int p, int k)
     {
-      var x = x1;
-      var y = y1;
+      var _x = x;
+      var _y = y;
       var point = new int[2];
-      point[0] = x2;
-      point[1] = y2;
-      for (int i = 1; i < k; i++)
+      point[0] = x;
+      point[1] = y;
+      for (var i = 1; i < k; i++)
       {
-        point = (x != point[0]) && (y != point[1]) ? CalculateIfPointsAreNotEqual(x, y, point[0], point[1], p) : 
-                                                     CalculateIfPointsAreEqual(x, y, point[0], point[1], a, p);
+        point = (_x != point[0]) && (_y != point[1]) ? CalculateIfPointsAreNotEqual(_x, _y, point[0], point[1], p) : 
+                                                     CalculateIfPointsAreEqual(_x, _y, point[0], point[1], a, p);
       }
       return point;
     }

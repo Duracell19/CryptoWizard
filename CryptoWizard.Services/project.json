@@ -1,6 +1,8 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
+    "Caliburn.Micro": "3.0.3",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
+    "PCLCrypto": "2.0.147"
   },
   "frameworks": {
     "uap10.0": {}
