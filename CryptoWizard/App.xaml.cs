@@ -7,9 +7,6 @@ using Windows.UI.Xaml.Controls;
 using Caliburn.Micro;
 using CryptoWizard.Views;
 using CryptoWizard.ViewModels;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Navigation;
 
 namespace CryptoWizard
 {
@@ -33,9 +30,6 @@ namespace CryptoWizard
 
     protected override void OnLaunched(LaunchActivatedEventArgs e)
     {
-      var navigationManager = SystemNavigationManager.GetForCurrentView();
-      navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-
 #if DEBUG
       if (Debugger.IsAttached)
       {
@@ -43,8 +37,6 @@ namespace CryptoWizard
       }
 #endif
       DisplayRootView<MainPageView>();
-
-      SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
     }
 
     protected override void OnSuspending(object sender, SuspendingEventArgs e)
@@ -71,17 +63,6 @@ namespace CryptoWizard
     protected override void BuildUp(object instance)
     {
       _container.BuildUp(instance);
-    }
-
-    private void OnBackRequested(object sender, BackRequestedEventArgs e)
-    {
-      Frame rootFrame = Window.Current.Content as Frame;
-
-      if (rootFrame.CanGoBack)
-      {
-        e.Handled = true;
-        rootFrame.GoBack();
-      }
     }
   }
 }

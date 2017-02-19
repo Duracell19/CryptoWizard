@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CryptoWizard.Services
 {
   public class Addition 
   {
+    private int[] _w; //Weights
     /// <summary>
     /// This method calculate addition of points
     /// </summary>
@@ -117,6 +121,134 @@ namespace CryptoWizard.Services
         y3 = (p + y3) % p;
       }
       return new int[] { x3, y3 };
+    }
+
+    public IEnumerable<int> AdditionNeuralNetworkResult(int x1, int y1, int x2, int y2, double a, int p)
+    {
+      return (x1 != x2) && (y1 != y2) ? CalculateIfPointsAreNotEqualNeuralNetwork(x1, y1, x2, y2, p) : CalculateIfPointsAreEqualNeuralNetwork(x1, y1, x2, y2, a, p);
+    }
+
+    private IEnumerable<int> CalculateIfPointsAreEqualNeuralNetwork(int x1, int y1, int x2, int y2, double a, int p)
+    {
+      var max = new int[] { x1, y1, x2, y2 }.Max();
+      var countRepeat = new BitArray(new int[] { max }).Cast<bool>().Select(bit => bit ? 1 : 0).Reverse().SkipWhile(x => x == 0).Count();
+      var countW = countRepeat * 2;
+      var w = new string[countW];
+      _w = new int[countW];
+      var j = 1;
+      w[0] = "1";
+      _w[0] = Convert.ToInt32(w[0], 2);
+      var count = 1;
+      for (var i = 1; i < countW; i++)
+      {
+        j *= 10;
+        w[i] = j.ToString();
+        _w[i] = Convert.ToInt32(w[i], 2);
+        if (count == countRepeat)
+        {
+          j = 1;
+          w[i] = j.ToString();
+          _w[i] = Convert.ToInt32(w[i], 2);
+          count = 0;
+        }
+        count++;
+      }
+      var lambda1 = 3 * x1 * x1 + a;
+      var lambda2 = 2 * y1;
+      if (lambda2 < 0)
+      {
+        lambda2 = (-1) * InverseElement(p, (-1) * lambda2);
+      }
+      else
+      {
+        lambda2 = InverseElement(p, lambda2);
+      }
+      var lambda = (int)lambda1 * lambda2;
+      lambda = (lambda < 0) ? (p + lambda) % p : lambda % p;
+      var k_ = new BitArray(new int[] { lambda * lambda }).Cast<bool>().Select(bit => bit ? 1 : 0);
+      int lambda_ = 0;
+      for (int i = 0, i1 = countW - 1; i < countW; i++, i1--)
+      {
+        lambda_ += k_.ElementAt(i) * _w[i1];
+      }
+      var mod = new BitArray(new int[] { p });
+      var x3 = mod.Xor(new BitArray(new int[] { lambda_ }).Xor(new BitArray(new int[] { x1 })).Xor(new BitArray(new int[] { x2 })));
+      var x3_ = x3.Cast<bool>().Select(bit => bit ? 1 : 0).Reverse().SkipWhile(x => x == 0);
+      var x_ = Convert.ToInt32(string.Join("", x3_), 2) % p;
+      var yy = new BitArray(new int[] { x1 }).Xor(x3);
+      var yyy = yy.Cast<bool>().Select(bit => bit ? 1 : 0).Reverse().SkipWhile(x => x == 0);
+      var yyyy = Convert.ToInt32(string.Join("", yyy), 2);
+      var y3_ = new BitArray(new int[] { yyyy * lambda }).Cast<bool>().Select(bit => bit ? 1 : 0);
+      lambda_ = 0;
+      for (int i = 0, i1 = countW - 1; i < countW; i++, i1--)
+      {
+        lambda_ += y3_.ElementAt(i) * _w[i1];
+      }
+      var y = new BitArray(new int[] { lambda_ }).Xor(new BitArray(new int[] { y1 }));
+      var y_ = Convert.ToInt32(string.Join("", y.Cast<bool>().Select(bit => bit ? 1 : 0).Reverse().SkipWhile(x => x == 0)), 2) % p;
+      return new int[] { x_, y_ };
+    }
+
+    private IEnumerable<int> CalculateIfPointsAreNotEqualNeuralNetwork(int x1, int y1, int x2, int y2, int p)
+    {
+      //TODO избавить от W можно сразу умножать десятичные числа на 2
+      var max = new int[] { x1, y1, x2, y2 }.Max();
+      var countRepeat = new BitArray(new int[] { max }).Cast<bool>().Select(bit => bit ? 1 : 0).Reverse().SkipWhile(x => x == 0).Count();
+      var countW = countRepeat * 2;
+      var w = new string[countW];
+      _w = new int[countW];
+      var j = 1;
+      w[0] = "1";
+      _w[0] = Convert.ToInt32(w[0], 2);
+      var count = 1;
+      for (var i = 1; i < countW; i++)
+      {
+        j *= 10;
+        w[i] = j.ToString();
+        _w[i] = Convert.ToInt32(w[i], 2);
+        if (count == countRepeat)
+        {
+          j = 1;
+          w[i] = j.ToString();
+          _w[i] = Convert.ToInt32(w[i], 2);
+          count = 0;
+        }
+        count++;
+      }
+      var mod = new BitArray(new int[] { p });
+      var lambda1 = y2 - y1;
+      var lambda2 = x2 - x1;
+      if (lambda2 < 0)
+      {
+        lambda2 = (-1) * InverseElement(p, (-1) * lambda2);
+      }
+      else
+      {
+        lambda2 = InverseElement(p, lambda2);
+      }
+      var lambda = lambda1 * lambda2;
+      lambda = (lambda < 0) ? (p + lambda) % p : lambda % p;
+      var k_ = new BitArray(new int[] { lambda * lambda }).Cast<bool>().Select(bit => bit ? 1 : 0); 
+      int lambda_ = 0;
+      for (int i = 0, i1 = countW - 1; i < countW; i++, i1--)
+      {
+        lambda_ += k_.ElementAt(i) * _w[i1];
+      }
+      var x3 = mod.Xor(new BitArray(new int[] { lambda_ }).Xor(new BitArray(new int[] { x1 })).Xor(new BitArray(new int[] { x2 })));
+      var x3_ = x3.Cast<bool>().Select(bit => bit ? 1 : 0).Reverse().SkipWhile(x => x == 0);
+      var x_ = Convert.ToInt32(string.Join("", x3_), 2) % p;
+      var yy = new BitArray(new int[] { x1 }).Xor(x3);
+      var yyy = yy.Cast<bool>().Select(bit => bit ? 1 : 0).Reverse().SkipWhile(x => x == 0);
+      var yyyy = Convert.ToInt32(string.Join("", yyy), 2);
+      var y3_ = new BitArray(new int[] { yyyy * lambda }).Cast<bool>().Select(bit => bit ? 1 : 0); 
+      lambda_ = 0;
+      for (int i = 0, i1 = countW - 1; i < countW; i++, i1--)
+      {
+        lambda_ += y3_.ElementAt(i) * _w[i1];
+      }
+      var y = new BitArray(new int[] { lambda_ }).Xor(new BitArray(new int[] { y1 }));     
+      var y_ = Convert.ToInt32(string.Join("", y.Cast<bool>().Select(bit => bit ? 1 : 0).Reverse().SkipWhile(x => x == 0)), 2) % p;
+      return new int[] { x_ , y_ };
     }
   }
 }
